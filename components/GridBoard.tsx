@@ -8,21 +8,20 @@ import{
 import Square from './Square';
 
 const data = [
-    { key : '1'}, { key : '2'}, { key : '3'}, { key : 'D'}, { key : 'E'}, { key : 'F'}, 
-    { key : 'G'}, { key : 'H'}, { key : 'I'}, { key : 'J'}, { key : 'K'}, { key : 'L'}, 
-    { key : 'M'}, { key : 'N'}, { key : 'O'}, { key : 'P'},
-    { key : 'A'}, { key : 'B'}, { key : 'C'}, { key : 'D'}, { key : 'E'}, { key : 'F'}, 
+    { key : 'A'}, { key : 'B'}, { key : '3'}, { key : 'D'}, { key : 'E'}, { key : 'F'}, 
     { key : 'G'}, { key : 'H'}, { key : 'I'}, { key : 'J'}, { key : 'K'}, { key : 'L'}, 
     { key : 'M'}, { key : 'N'}, { key : 'O'}, { key : 'P'},
     
 ];
 
 const formatData = (data: {key: string}[]) => {
-
     let numberOfBlankElements = 64 - data.length;
-    while (numberOfBlankElements !== 64 && numberOfBlankElements !== 0) {
-      data.push({ key: `Bl-${numberOfBlankElements + 1}` });
-      numberOfBlankElements++;
+    let elementOn = 64 - numberOfBlankElements;
+
+    while (elementOn !== 64 && numberOfBlankElements !== 0) {
+      data.push({ key: `${elementOn + 1}` });
+      elementOn++;
+      
     }
 
     return data;
@@ -46,7 +45,7 @@ export default class GridBoard extends React.Component<GridBoardProps, {}> {
                     //keyExtractor={(item, index) => item.id.toString()}
                     renderItem = {itemData => (
                         <View style ={styles.item}>
-                            <Text> {itemData.item.key} </Text>
+                            <Square title={itemData.item.key} />
                         </View>
                     )}
                 />
@@ -57,14 +56,24 @@ export default class GridBoard extends React.Component<GridBoardProps, {}> {
 
 const styles = StyleSheet.create({
     item: {
-      padding: 5,
-      margin: 5,
-      width: 35,
-      height: 35,
-      backgroundColor: "#ccc",
-      borderColor: 'black',
-      borderWidth: 1,
-      alignItems: 'center'
+        padding: 5,
+        margin: 5,
+        width: 35,
+        height: 35,
+        backgroundColor: "#ccc",
+        borderColor: 'black',
+        borderWidth: 1,
+        alignItems: 'center'
+    },
+    itemRed: {
+        padding: 5,
+        margin: 5,
+        width: 35,
+        height: 35,
+        backgroundColor: "#FF0000",
+        borderColor: 'black',
+        borderWidth: 1,
+        alignItems: 'center'
     },
     grid: {
         flexDirection: 'column',
