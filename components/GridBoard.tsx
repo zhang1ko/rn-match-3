@@ -40,8 +40,7 @@ const shuffleData = (data: Array<Square>) => {
 }
 
 interface GridBoardProps {
-    // set any for now
-    items: ReadonlyArray<any>;
+    items: ReadonlyArray<Square>;
 }
 export default class GridBoard extends React.Component<GridBoardProps, {}> {
     constructor(props: GridBoardProps) {
@@ -67,26 +66,6 @@ export default class GridBoard extends React.Component<GridBoardProps, {}> {
 }
 
 const styles = StyleSheet.create({
-    item: {
-        padding: 5,
-        margin: 5,
-        width: 35,
-        height: 35,
-        backgroundColor: "#ccc",
-        borderColor: 'black',
-        borderWidth: 1,
-        alignItems: 'center'
-    },
-    itemRed: {
-        padding: 5,
-        margin: 5,
-        width: 35,
-        height: 35,
-        backgroundColor: "#FF0000",
-        borderColor: 'black',
-        borderWidth: 1,
-        alignItems: 'center'
-    },
     grid: {
         flexDirection: 'column',
         marginBottom: 32,
