@@ -6,23 +6,30 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import {
-  StyleSheet,
-  View,
-  Text,
+StyleSheet,
+View,
+Text,
 } from 'react-native';
+import GridBoard from './components/GridBoard';
 
-const App: () => React$Node = () => {
-  return (
-    <View>
-
-    </ View>
-  );
+export default class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            onBoardSquares: []
+        }
+    }
+    render () {
+        return (
+            <View>
+                <GridBoard items={this.state.onBoardSquares} />
+            </ View>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
-  
-});
 
-export default App;
+});
