@@ -12,9 +12,32 @@ const data: Array<Square> = [
     new Square({title: "B", key: 2}), 
     new Square({title: "B", key: 3}), 
     new Square({title: "C", key: 4}),
-    new Square({title: "D", key: 4}), 
+    new Square({title: "D", key: 5}), 
     
 ];
+
+const swapSquare = (data: Array<Square>, location: number, direcction: string) => {
+    let temp: Square;
+    switch(direcction){
+        case 'up':
+            temp = data[location];
+            data[location] = data[location - 8];
+            data[location - 8] = temp;
+        case 'down':
+            temp = data[location];
+            data[location] = data[location + 8];
+            data[location + 8] = temp;
+        case 'left':
+            temp = data[location];
+            data[location] = data[location - 1];
+            data[location - 1] = temp;
+        case 'right':
+            temp = data[location];
+            data[location] = data[location + 1];
+            data[location + 1] = temp;
+    }
+    return data;
+}
 
 const formatData = (data: Array<Square>) => {
     let numberOfBlankElements = 64 - data.length;
