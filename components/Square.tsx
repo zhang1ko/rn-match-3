@@ -5,33 +5,39 @@ import{
     View,
 } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-//import { swipeable } from 'react-native-gesture-recognizers';
-//const { directions: { SWIPE_UP, SWIPE_LEFT, SWIPE_DOWN, SWIPE_RIGHT } } = swipeable;
 
 const Tile_Size: number = 35;
+const colors = {
+    white: '#fff',
+    grey: "#ccc",
+    red: "#FF0000",
+    blue: "#0000ff",
+    yellow: "#ffff00",
+    green: "#00FF00"
+}
 
 const jewelStyle = (option: string): { backgroundColor: string } => {
     switch (option){
         case 'A':
             return {
-                backgroundColor: "#FF0000",
+                backgroundColor: colors.red
             }
         case 'B':
             return {
-                backgroundColor: "#0000ff",
+                backgroundColor: colors.blue
             }
         case 'C':
             return {
-                backgroundColor: "#ffff00",
+                backgroundColor: colors.yellow
             }
         case 'D':
             return {
-                backgroundColor: "#00FF00",
+                backgroundColor: colors.green
             }
         default:
             return {
-                backgroundColor: "#ccc",
-            }       
+                backgroundColor: colors.grey
+            }
     }
 }
 
@@ -100,11 +106,5 @@ const styles = StyleSheet.create({
       borderColor: 'black',
       borderWidth: 1,
       alignItems: 'center'
-    },
-    red: {
-        backgroundColor: "#FF0000"
-    },
-    blue: {
-        backgroundColor: "#0000ff"
     }
 });
