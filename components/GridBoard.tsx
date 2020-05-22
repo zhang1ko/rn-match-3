@@ -7,46 +7,57 @@ import{
 } from 'react-native';
 import Square from './Square';
 
-const data = [
-    { key : 'A'}, { key : 'B'}, { key : '3'}, { key : 'D'}, { key : 'E'}, { key : 'F'}, 
-    { key : 'G'}, { key : 'H'}, { key : 'I'}, { key : 'J'}, { key : 'K'}, { key : 'L'}, 
-    { key : 'M'}, { key : 'N'}, { key : 'O'}, { key : 'P'},
+const data: Array<Square> = [
+    new Square({title: "A", key: 1}), 
+    new Square({title: "B", key: 2}), 
+    new Square({title: "B", key: 3}), 
+    new Square({title: "C", key: 4}),
+    new Square({title: "D", key: 4}), 
     
 ];
 
-const formatData = (data: {key: string}[]) => {
+const formatData = (data: Array<Square>) => {
     let numberOfBlankElements = 64 - data.length;
     let elementOn = 64 - numberOfBlankElements;
 
     while (elementOn !== 64 && numberOfBlankElements !== 0) {
-      data.push({ key: `${elementOn + 1}` });
-      elementOn++;
-      
+        let temp = new Square({title: `${elementOn + 1}`, key: elementOn});
+        data.push(temp);
+        elementOn++;
     }
 
     return data;
 }
+const shuffleData = (data: Array<Square>) => {
+    let i = data.length - 1;
+    for (; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
+    }
+    return data;
+}
 
 interface GridBoardProps {
-    // set any for now
-    items: ReadonlyArray<any>;
+    items: ReadonlyArray<Square>;
 }
 export default class GridBoard extends React.Component<GridBoardProps, {}> {
     constructor(props: GridBoardProps) {
         super(props);
+        formatData(data);
+        shuffleData(data);
     }
     render () {
         return (
             <View>
                 <FlatList 
                     numColumns={8}
-                    data={formatData(data)}
+                    data={data}
                     contentContainerStyle={styles.grid}
                     //keyExtractor={(item, index) => item.id.toString()}
                     renderItem = {itemData => (
-                        <View style ={styles.item}>
-                            <Square title={itemData.item.key} />
-                        </View>
+                        itemData.item.render()
                     )}
                 />
             </ View>
@@ -55,26 +66,6 @@ export default class GridBoard extends React.Component<GridBoardProps, {}> {
 }
 
 const styles = StyleSheet.create({
-    item: {
-        padding: 5,
-        margin: 5,
-        width: 35,
-        height: 35,
-        backgroundColor: "#ccc",
-        borderColor: 'black',
-        borderWidth: 1,
-        alignItems: 'center'
-    },
-    itemRed: {
-        padding: 5,
-        margin: 5,
-        width: 35,
-        height: 35,
-        backgroundColor: "#FF0000",
-        borderColor: 'black',
-        borderWidth: 1,
-        alignItems: 'center'
-    },
     grid: {
         flexDirection: 'column',
         marginBottom: 32,
