@@ -18,7 +18,8 @@ export default class Game extends React.Component<{}, GameState> {
             onBoardSquares: [
                 //new Square({title: "A", key: 0, swap: this.moveSquare}), 
                 //new Square({title: "B", key: 1, swap: this.moveSquare}), 
-                //new Square({title: "C", key: 2, swap: this.moveSquare})
+                //new Square({title: "C", key: 2, swap: this.moveSquare}), 
+                //new Square({title: "D", key: 3, swap: this.moveSquare})
             ]
         }
         this.formatData(this.state.onBoardSquares);
@@ -70,6 +71,7 @@ export default class Game extends React.Component<{}, GameState> {
             data.push(temp);
             elementOn++;
         }
+        this.setState({onBoardSquares: data})
         return data;
     }
     shuffleData = (data: Array<Square>) => {

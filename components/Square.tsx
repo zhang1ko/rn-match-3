@@ -22,6 +22,7 @@ const colors = {
 const notifyMessage = (msg: string) => {
     if (Platform.OS === 'android') {
         ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
+        console.log("Toast shown.");
     } else {
         Alert.alert(msg);
     }
@@ -96,7 +97,7 @@ export default class Square {
                         this.onSwipe("up", gestureState)
                         this.swap(this.key, "up")
                     }
-                    else if (dx > Tile_Size && this.key % 7 !== 0) {
+                    else if (dx > Tile_Size && this.key % 8 !== 7) {
                         this.onSwipe("right", gestureState)
                         this.swap(this.key, "right")
                     }
