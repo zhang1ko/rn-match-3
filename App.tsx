@@ -13,18 +13,26 @@ View,
 Text,
 } from 'react-native';
 import GridBoard from './components/GridBoard';
+import Square from './components/Square';
+import Game from './components/Game'
 
-export default class App extends Component {
-    constructor(props) {
+
+interface AppState {
+    
+}
+
+export default class App extends React.Component<{}, AppState> {
+    constructor(props: {}) {
         super(props);
         this.state = {
-            onBoardSquares: []
+            
         }
     }
+
     render () {
         return (
             <View>
-                <GridBoard items={this.state.onBoardSquares} />
+                <Game />
             </ View>
         );
     }

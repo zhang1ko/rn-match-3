@@ -1,82 +1,25 @@
 import React, { Component } from 'react';
 import{
     StyleSheet,
-    Text,
     FlatList,
     View,
 } from 'react-native';
 import Square from './Square';
 
-const data: Array<Square> = [
-    new Square({title: "A", key: 1}), 
-    new Square({title: "B", key: 2}), 
-    new Square({title: "B", key: 3}), 
-    new Square({title: "C", key: 4}),
-    new Square({title: "D", key: 5}), 
-    
-];
-
-const swapSquare = (data: Array<Square>, location: number, direcction: string) => {
-    let temp: Square;
-    switch(direcction){
-        case 'up':
-            temp = data[location];
-            data[location] = data[location - 8];
-            data[location - 8] = temp;
-        case 'down':
-            temp = data[location];
-            data[location] = data[location + 8];
-            data[location + 8] = temp;
-        case 'left':
-            temp = data[location];
-            data[location] = data[location - 1];
-            data[location - 1] = temp;
-        case 'right':
-            temp = data[location];
-            data[location] = data[location + 1];
-            data[location + 1] = temp;
-    }
-    return data;
-}
-
-const formatData = (data: Array<Square>) => {
-    let numberOfBlankElements = 64 - data.length;
-    let elementOn = 64 - numberOfBlankElements;
-
-    while (elementOn !== 64 && numberOfBlankElements !== 0) {
-        let temp = new Square({title: `${elementOn + 1}`, key: elementOn});
-        data.push(temp);
-        elementOn++;
-    }
-
-    return data;
-}
-const shuffleData = (data: Array<Square>) => {
-    let i = data.length - 1;
-    for (; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const temp = data[i];
-        data[i] = data[j];
-        data[j] = temp;
-    }
-    return data;
-}
-
 interface GridBoardProps {
-    items: ReadonlyArray<Square>;
+    items: Array<Square>;
 }
 export default class GridBoard extends React.Component<GridBoardProps, {}> {
     constructor(props: GridBoardProps) {
         super(props);
-        formatData(data);
-        shuffleData(data);
     }
+
     render () {
         return (
             <View>
                 <FlatList 
                     numColumns={8}
-                    data={data}
+                    data={this.props.items}
                     contentContainerStyle={styles.grid}
                     //keyExtractor={(item, index) => item.id.toString()}
                     renderItem = {itemData => (
