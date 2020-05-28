@@ -8,16 +8,8 @@ import{
     Alert,
 } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-
-const Tile_Size: number = 35;
-const colors = {
-    white: '#fff',
-    grey: "#ccc",
-    red: "#FF0000",
-    blue: "#0000ff",
-    yellow: "#ffff00",
-    green: "#00FF00"
-}
+import { styles } from './SquareStyle';
+import { Tile_Size, colors } from './values';
 
 const notifyMessage = (msg: string) => {
     if (Platform.OS === 'android') {
@@ -120,15 +112,3 @@ export default class Square {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    item: {
-      padding: 5,
-      margin: 5,
-      width: Tile_Size,
-      height: 35,
-      borderColor: 'black',
-      borderWidth: 1,
-      alignItems: 'center'
-    }
-});

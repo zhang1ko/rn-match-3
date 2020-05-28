@@ -15,12 +15,7 @@ export default class Game extends React.Component<{}, GameState> {
     constructor(props: {}) {
         super(props);
         this.state = {
-            onBoardSquares: [
-                //new Square({title: "A", key: 0, swap: this.moveSquare}), 
-                //new Square({title: "B", key: 1, swap: this.moveSquare}), 
-                //new Square({title: "C", key: 2, swap: this.moveSquare}), 
-                //new Square({title: "D", key: 3, swap: this.moveSquare})
-            ]
+            onBoardSquares: []
         }
         this.formatData(this.state.onBoardSquares);
         this.shuffleData(this.state.onBoardSquares)
