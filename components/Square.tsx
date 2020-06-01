@@ -23,21 +23,16 @@ const notifyMessage = (msg: string) => {
 const jewelStyle = (option: string): { backgroundColor: string } => {
     switch (option){
         case '1':
-            return {
-                backgroundColor: colors.red
-            }
+            return {backgroundColor: colors.red}
         case '2':
-            return {
-                backgroundColor: colors.blue
-            }
+            return {backgroundColor: colors.blue}
         case '3':
-            return {
-                backgroundColor: colors.yellow
-            }
+            return {backgroundColor: colors.yellow}
         case '4':
-            return {
-                backgroundColor: colors.green
-            }
+            return {backgroundColor: colors.green}
+        case '5': {
+            return {backgroundColor: colors.white}
+        }
         default:
             return {
                 backgroundColor: colors.grey
