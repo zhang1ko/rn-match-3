@@ -3,33 +3,38 @@ import{
     StyleSheet,
     Text,
     View,
-    TouchableNativeFeedback
+    ToastAndroid, 
+    Platform, 
+    Alert,
 } from 'react-native';
+import GestureRecognizer from 'react-native-swipe-gestures';
+import { styles } from './SquareStyle';
+import { Tile_Size, colors, config } from './values';
 
-const colors = {
-    white: '#fff',
-    grey: "#ccc",
-    red: "#FF0000",
-    blue: "#0000ff",
-    yellow: "#ffff00",
-    green: "#00FF00"
+const notifyMessage = (msg: string) => {
+    if (Platform.OS === 'android') {
+        ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
+        console.log("Toast shown.");
+    } else {
+        Alert.alert(msg);
+    }
 }
 
 const jewelStyle = (option: string): { backgroundColor: string } => {
     switch (option){
-        case 'A':
+        case '1':
             return {
                 backgroundColor: colors.red
             }
-        case 'B':
+        case '2':
             return {
                 backgroundColor: colors.blue
             }
-        case 'C':
+        case '3':
             return {
                 backgroundColor: colors.yellow
             }
-        case 'D':
+        case '4':
             return {
                 backgroundColor: colors.green
             }
@@ -37,37 +42,65 @@ const jewelStyle = (option: string): { backgroundColor: string } => {
             return {
                 backgroundColor: colors.grey
             }
-            
     }
 }
 
 export default class Square {
     type: string;
     key: number;
-    constructor(props: { title: string; key: number}){
+    swap: (location: number, direction: string) => Square[];
+    constructor(props: { title: string; key: number, swap: (location: number, direction: string) => Square[]}){
         this.type = props.title; 
         this.key = props.key;
+        this.swap = props.swap;
      }
 
-     render () {
+     onSwipe(direction: String, gestureState: object) {
+        console.log("You swiped square " + this.type);
+        console.log("  at position " + this.key);
+        console.log("  direction is "+ direction);
+        console.log();
+     }
+
+     setKey(newKey: number) {
+         this.key = newKey;
+     }
+
+     render () {    
+        
         return (
-            <TouchableNativeFeedback /*onPress={this.props.onPress}*/ >
+            <GestureRecognizer
+                onSwipe={(gestureName, gestureState) => {
+                    const {dy} = gestureState;
+                    const {dx} = gestureState;
+                    if (dy > Tile_Size && this.key < 56) {
+                        this.onSwipe("down", gestureState)
+                        this.swap(this.key, "down")
+                    }
+                    else if (dy < -Tile_Size && this.key > 7) {
+                        this.onSwipe("up", gestureState)
+                        this.swap(this.key, "up")
+                    }
+                    else if (dx > Tile_Size && this.key % 8 !== 7) {
+                        this.onSwipe("right", gestureState)
+                        this.swap(this.key, "right")
+                    }
+                    else if (dx < -Tile_Size && this.key%8 !== 0) {
+                        this.onSwipe("left", gestureState)
+                        this.swap(this.key, "left");
+                    }
+                    else {
+                        notifyMessage("Invalid move");
+                    }
+                }}
+
+                config={config}
+            >
                 <View style={[styles.item, jewelStyle(this.type)] } > 
                     <Text>{this.type}</Text> 
                 </View>
-            </TouchableNativeFeedback>
+            </GestureRecognizer>
+            
         );
     }
 }
-
-const styles = StyleSheet.create({
-    item: {
-      padding: 5,
-      margin: 5,
-      width: 35,
-      height: 35,
-      borderColor: 'black',
-      borderWidth: 1,
-      alignItems: 'center'
-    }
-});

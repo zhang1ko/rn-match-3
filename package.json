@@ -12,6 +12,7 @@
   "dependencies": {
     "react": "16.11.0",
     "react-native": "0.62.2",
+    "react-native-gesture-recognizers": "^0.3.0",
     "react-native-swipe-gestures": "^1.0.5"
   },
   "devDependencies": {
