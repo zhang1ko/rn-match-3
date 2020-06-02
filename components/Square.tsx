@@ -8,7 +8,7 @@ import{
     Alert,
 } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import { styles } from './SquareStyle';
+import { squareStyles } from './Styles';
 import { Tile_Size, colors, config } from './values';
 
 const notifyMessage = (msg: string) => {
@@ -91,7 +91,7 @@ export default class Square {
 
                 config={config}
             >
-                <View style={[styles.item, jewelStyle(this.type)] } > 
+                <View style={[squareStyles.item, jewelStyle(this.type)] } > 
                     <Text>{this.type}</Text> 
                 </View>
             </GestureRecognizer>
