@@ -61,8 +61,8 @@ export default class Square {
          this.key = newKey;
      }
 
-     render () {   
-
+     render () {    
+        
         return (
             <GestureRecognizer
                 onSwipe={(gestureName, gestureState) => {
