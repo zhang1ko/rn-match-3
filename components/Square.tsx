@@ -62,7 +62,7 @@ export default class Square {
      }
 
      render () {   
-
+         
         return (
             <GestureRecognizer
                 onSwipe={(gestureName, gestureState) => {
