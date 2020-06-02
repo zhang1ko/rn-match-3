@@ -8,16 +8,8 @@ import{
     Alert,
 } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-
-const Tile_Size: number = 35;
-const colors = {
-    white: '#fff',
-    grey: "#ccc",
-    red: "#FF0000",
-    blue: "#0000ff",
-    yellow: "#ffff00",
-    green: "#00FF00"
-}
+import { squareStyles } from './Styles';
+import { Tile_Size, colors, config } from './values';
 
 const notifyMessage = (msg: string) => {
     if (Platform.OS === 'android') {
@@ -31,21 +23,16 @@ const notifyMessage = (msg: string) => {
 const jewelStyle = (option: string): { backgroundColor: string } => {
     switch (option){
         case '1':
-            return {
-                backgroundColor: colors.red
-            }
+            return {backgroundColor: colors.red}
         case '2':
-            return {
-                backgroundColor: colors.blue
-            }
+            return {backgroundColor: colors.blue}
         case '3':
-            return {
-                backgroundColor: colors.yellow
-            }
+            return {backgroundColor: colors.yellow}
         case '4':
-            return {
-                backgroundColor: colors.green
-            }
+            return {backgroundColor: colors.green}
+        case '5': {
+            return {backgroundColor: colors.white}
+        }
         default:
             return {
                 backgroundColor: colors.grey
@@ -74,16 +61,8 @@ export default class Square {
          this.key = newKey;
      }
 
-     render () {    
-        const config = {
-            velocityThreshold: 0.3,
-            directionalOffsetThreshold: 35,
-            detectSwipeUp: true,
-            detectSwipeDown: true,
-            detectSwipeLeft: true,
-            detectSwipeRight: true
-        };
-
+     render () {   
+         
         return (
             <GestureRecognizer
                 onSwipe={(gestureName, gestureState) => {
@@ -112,7 +91,7 @@ export default class Square {
 
                 config={config}
             >
-                <View style={[styles.item, jewelStyle(this.type)] } > 
+                <View style={[squareStyles.item, jewelStyle(this.type)] } > 
                     <Text>{this.type}</Text> 
                 </View>
             </GestureRecognizer>
@@ -120,15 +99,3 @@ export default class Square {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    item: {
-      padding: 5,
-      margin: 5,
-      width: Tile_Size,
-      height: 35,
-      borderColor: 'black',
-      borderWidth: 1,
-      alignItems: 'center'
-    }
-});
