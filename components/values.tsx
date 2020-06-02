@@ -9,3 +9,11 @@ export const colors = {
     yellow: "#ffff00",
     green: "#00FF00"
 }
+export const config = {
+    velocityThreshold: 0.3,
+    directionalOffsetThreshold: 35,
+    detectSwipeUp: true,
+    detectSwipeDown: true,
+    detectSwipeLeft: true,
+    detectSwipeRight: true
+}

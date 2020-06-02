@@ -9,7 +9,7 @@ import{
 } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { styles } from './SquareStyle';
-import { Tile_Size, colors } from './values';
+import { Tile_Size, colors, config } from './values';
 
 const notifyMessage = (msg: string) => {
     if (Platform.OS === 'android') {
@@ -61,15 +61,7 @@ export default class Square {
          this.key = newKey;
      }
 
-     render () {    
-        const config = {
-            velocityThreshold: 0.3,
-            directionalOffsetThreshold: 35,
-            detectSwipeUp: true,
-            detectSwipeDown: true,
-            detectSwipeLeft: true,
-            detectSwipeRight: true
-        };
+     render () {   
 
         return (
             <GestureRecognizer
