@@ -86,6 +86,7 @@ export default class Game extends React.Component<{}, GameState> {
         else
             this.verticalCheck(data);
 
+
         this.setState({onBoardSquares: data})
         
         return data;
@@ -207,7 +208,7 @@ export default class Game extends React.Component<{}, GameState> {
         this.formatData(this.state.onBoardSquares);
         this.checkMatch(this.state.onBoardSquares);
         this._gameStarted = true;
-
+        
      }
     componentWillUnmount() {  
         
