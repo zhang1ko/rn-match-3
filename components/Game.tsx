@@ -104,12 +104,14 @@ export default class Game extends React.Component<{}, GameState> {
                 temp = data[i].type;
                 console.log("match found");
                 hasMatch = true;
+                this.removeMatch(data, (i - matches), matches, "horizontal");
                 matches = 1;
             }
             else if (i % column == 7 && temp == data[i].type && matches > 1) { //if it is the end of the row and it is a match
                 console.log("match found");
                 hasMatch = true;
                 matches++;
+                this.removeMatch(data, (i - matches + 1), matches, "horizontal");
                 matches = 1;
             }
             else if (i % column == 0) {    //new row
@@ -145,12 +147,14 @@ export default class Game extends React.Component<{}, GameState> {
                     temp = data[i + (j*column)].type;
                     console.log("vertical match found");
                     hasMatch = true;
+                    this.removeMatch(data, (i + (j*column) - matches * column), matches, "vertical");
                     matches = 1;
                 }
                 else if ((j*column) > 55 && temp == data[i + (j*column)].type && matches > 1) { // if it is the end of the column and it is a match
                     console.log("vertical match found");
                     hasMatch = true;
                     matches++;
+                    this.removeMatch(data, (i + (j*column) - (matches-1) * column), matches, "vertical");
                     matches = 1;
                 }
                 else if ( temp == data[i + (j*column)].type && data[i + (j*column)].type !== '0') { // if a match is found
@@ -163,6 +167,25 @@ export default class Game extends React.Component<{}, GameState> {
             }
         }
         return hasMatch;
+    }
+
+    removeMatch = (data: Array<Square>, startLocation: number, numOfMatches: number, direction: string) => {
+        let move = 1;
+        if (direction == "vertical") {
+            console.log("vertical");
+            move = column;
+        }
+
+        for (let i = 0; i < numOfMatches * move; i+=move) {
+            data[startLocation + i] = new Square({title: `0`, key: (startLocation + i), swap: this.moveSquare});
+        }
+        
+        if (this._gameStarted) {
+        this.setState({score: this.state.score + numOfMatches});
+        }
+        this.setState({onBoardSquares: data})
+        
+        return data;
     }
 
     
