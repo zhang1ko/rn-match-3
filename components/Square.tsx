@@ -8,7 +8,7 @@ import{
     Alert,
 } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import { styles } from './SquareStyle';
+import { squareStyles } from './Styles';
 import { Tile_Size, colors, config } from './values';
 
 const notifyMessage = (msg: string) => {
@@ -23,21 +23,16 @@ const notifyMessage = (msg: string) => {
 const jewelStyle = (option: string): { backgroundColor: string } => {
     switch (option){
         case '1':
-            return {
-                backgroundColor: colors.red
-            }
+            return {backgroundColor: colors.red}
         case '2':
-            return {
-                backgroundColor: colors.blue
-            }
+            return {backgroundColor: colors.blue}
         case '3':
-            return {
-                backgroundColor: colors.yellow
-            }
+            return {backgroundColor: colors.yellow}
         case '4':
-            return {
-                backgroundColor: colors.green
-            }
+            return {backgroundColor: colors.green}
+        case '5': {
+            return {backgroundColor: colors.white}
+        }
         default:
             return {
                 backgroundColor: colors.grey
@@ -96,7 +91,7 @@ export default class Square {
 
                 config={config}
             >
-                <View style={[styles.item, jewelStyle(this.type)] } > 
+                <View style={[squareStyles.item, jewelStyle(this.type)] } > 
                     <Text>{this.type}</Text> 
                 </View>
             </GestureRecognizer>
