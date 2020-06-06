@@ -93,6 +93,14 @@ export default class Game extends React.Component<{}, GameState> {
             this.verticalCheck(data);
 
 
+        if (hasMatch) {
+            if (this._gameStarted){
+                setTimeout(() => {this.dropDown(data)}, 500);
+            }
+            else {
+                this.dropDown(data);
+            }
+        }
         this.setState({onBoardSquares: data})
         
         return data;
@@ -192,7 +200,43 @@ export default class Game extends React.Component<{}, GameState> {
         
         return data;
     }
-    
+
+    dropDown = (data: Array<Square>) => {
+        console.log("drop down func called");
+        let i: number;
+        let type: number;
+        
+        for (i = (row * column) -1; i >= 0; i--) {
+            if (data[i].type == '0' && i > column -1) {
+                let j: number;
+                for( j = 1; j*column <= i; j++) {
+                    if (data[i - j*column].type !== '0') {
+                        data[i] = data[i - j*column];
+                        data[i].setKey(i);
+                        data[i - j*column] = new Square({title: `0`, key: (i - j*column), swap: this.moveSquare});
+                        break;
+                    }
+                }
+            }
+            else if (data[i].type == '0' && i < column) {
+                type = Math.floor(Math.random() * 5) + 1;
+                data[i] = new Square({title: `${type}`, key: i, swap: this.moveSquare});
+                if (this._gameStarted) 
+                    setTimeout(() => {this.dropDown(data)}, 500);
+                else
+                    this.dropDown(data);
+            }
+        }
+        
+        this.setState({onBoardSquares: data})
+        
+        if (this._gameStarted) 
+            setTimeout(() => {this.checkMatch(data)}, 500);
+        else
+            this.checkMatch(data);
+        return data;
+    }
+
     formatData = (data: Array<Square>) => {
         let numberOfBlankElements = 64 - data.length;
         let elementOn = 64 - numberOfBlankElements;
