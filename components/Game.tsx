@@ -10,6 +10,12 @@ import {gameStyles} from './Styles';
 
 const row = 8;
 const column = 8;
+enum Directions {
+    Up = -column,
+    Down = column,
+    Left = -1,
+    Right = 1,
+}
 
 interface GameState {
     onBoardSquares: Array<Square>;
@@ -64,13 +70,13 @@ export default class Game extends React.Component<{}, GameState> {
     moveSquare = (location: number, direction: string) => {
         switch(direction){
             case 'up':
-                return this.swapSquare(this.state.onBoardSquares, location, -column);
+                return this.swapSquare(this.state.onBoardSquares, location, Directions.Up);
             case 'down':
-                return this.swapSquare(this.state.onBoardSquares, location, column);
+                return this.swapSquare(this.state.onBoardSquares, location, Directions.Down);
             case 'left':
-                return this.swapSquare(this.state.onBoardSquares, location, -1);
+                return this.swapSquare(this.state.onBoardSquares, location, Directions.Left);
             case 'right':
-                return this.swapSquare(this.state.onBoardSquares, location, 1);
+                return this.swapSquare(this.state.onBoardSquares, location, Directions.Right);
             default:
                 return this.state.onBoardSquares;
         }
@@ -104,12 +110,14 @@ export default class Game extends React.Component<{}, GameState> {
                 temp = data[i].type;
                 console.log("match found");
                 hasMatch = true;
+                this.removeMatch(data, (i - matches), matches, Directions.Right);
                 matches = 1;
             }
             else if (i % column == 7 && temp == data[i].type && matches > 1) { //if it is the end of the row and it is a match
                 console.log("match found");
                 hasMatch = true;
                 matches++;
+                this.removeMatch(data, (i - matches + 1), matches, Directions.Right);
                 matches = 1;
             }
             else if (i % column == 0) {    //new row
@@ -145,12 +153,14 @@ export default class Game extends React.Component<{}, GameState> {
                     temp = data[i + (j*column)].type;
                     console.log("vertical match found");
                     hasMatch = true;
+                    this.removeMatch(data, (i + (j*column) - matches * column), matches, Directions.Down);
                     matches = 1;
                 }
                 else if ((j*column) > 55 && temp == data[i + (j*column)].type && matches > 1) { // if it is the end of the column and it is a match
                     console.log("vertical match found");
                     hasMatch = true;
                     matches++;
+                    this.removeMatch(data, (i + (j*column) - (matches-1) * column), matches, Directions.Down);
                     matches = 1;
                 }
                 else if ( temp == data[i + (j*column)].type && data[i + (j*column)].type !== '0') { // if a match is found
@@ -165,6 +175,23 @@ export default class Game extends React.Component<{}, GameState> {
         return hasMatch;
     }
 
+    removeMatch = (data: Array<Square>, startLocation: number, numOfMatches: number, direction: number) => {
+        let move = direction;
+        if (move == column) {
+            console.log("vertical");
+        }
+
+        for (let i = 0; i < numOfMatches * move; i+=move) {
+            data[startLocation + i] = new Square({title: `0`, key: (startLocation + i), swap: this.moveSquare});
+        }
+        
+        if (this._gameStarted) {
+        this.setState({score: this.state.score + numOfMatches});
+        }
+        this.setState({onBoardSquares: data})
+        
+        return data;
+    }
     
     formatData = (data: Array<Square>) => {
         let numberOfBlankElements = 64 - data.length;
@@ -181,6 +208,7 @@ export default class Game extends React.Component<{}, GameState> {
         
         return data;
     }
+
     shuffleData = (data: Array<Square>) => {
         let temp: Square;
         let tempKey: number;
