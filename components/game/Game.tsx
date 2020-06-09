@@ -172,26 +172,26 @@ export default class Game extends React.Component<{}, GameState> {
             temp = data[currPos].type;
             matches = 1;
 
-            for (let j = 1; j < column; j++){
-                if (temp !== (data[currPos + (j*column)].type) && matches > 2) { // if the match has eneded and the number of matches is 3 or greater
-                    temp = data[currPos + (j*column)].type;
+            for (let aboveCurrPos = 1; aboveCurrPos < column; aboveCurrPos++){
+                if (temp !== (data[currPos + (aboveCurrPos*column)].type) && matches > 2) { // if the match has eneded and the number of matches is 3 or greater
+                    temp = data[currPos + (aboveCurrPos*column)].type;
                     console.log("vertical match found");
                     hasMatch = true;
-                    this.removeMatch(data, (currPos + (j*column) - matches * column), matches, Directions.Down);
+                    this.removeMatch(data, (currPos + (aboveCurrPos*column) - matches * column), matches, Directions.Down);
                     matches = 1;
                 }
-                else if ((j*column) > 55 && temp == data[currPos+ (j*column)].type && matches > 1) { // if it is the end of the column and it is a match
+                else if ((aboveCurrPos*column) > 55 && temp == data[currPos+ (aboveCurrPos*column)].type && matches > 1) { // if it is the end of the column and it is a match
                     console.log("vertical match found");
                     hasMatch = true;
                     matches++;
-                    this.removeMatch(data, (currPos + (j*column) - (matches-1) * column), matches, Directions.Down);
+                    this.removeMatch(data, (currPos + (aboveCurrPos*column) - (matches-1) * column), matches, Directions.Down);
                     matches = 1;
                 }
-                else if ( temp == data[currPos + (j*column)].type && data[currPos + (j*column)].type !== squareType.grey.toString() ) { // if a match is found
+                else if ( temp == data[currPos + (aboveCurrPos*column)].type && data[currPos + (aboveCurrPos*column)].type !== squareType.grey.toString() ) { // if a match is found
                     matches++;
                 }
                 else {
-                    temp = data[currPos + (j*column)].type;
+                    temp = data[currPos + (aboveCurrPos*column)].type;
                     matches = 1;
                 }
             }
@@ -288,18 +288,18 @@ export default class Game extends React.Component<{}, GameState> {
         let tempKey: number;
         let tempKey1: number;
 
-        let i = data.length - 1;
-        for (; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            tempKey = data[i].key;
-            temp = data[i];
-            tempKey1 = data[j].key;
+        let currPos = data.length - 1;
+        for (; currPos > 0; currPos--) {
+            const randPos = Math.floor(Math.random() * (currPos + 1));
+            tempKey = data[currPos].key;
+            temp = data[currPos];
+            tempKey1 = data[randPos].key;
 
-            data[i] = data[j];
-            data[i].setKey(tempKey);
+            data[currPos] = data[randPos];
+            data[currPos].setKey(tempKey);
 
-            data[j] = temp;
-            data[j].setKey(tempKey1);
+            data[randPos] = temp;
+            data[randPos].setKey(tempKey1);
         }
         this.setState({onBoardSquares: data})
         
