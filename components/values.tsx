@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-
 export const Tile_Size: number = 35;
 export const colors = {
     white: '#fff',

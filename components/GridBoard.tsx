@@ -4,7 +4,7 @@ import{
     FlatList,
     View,
 } from 'react-native';
-import Square from './Square';
+import Square from './square/Square';
 
 interface GridBoardProps {
     items: Array<Square>;
