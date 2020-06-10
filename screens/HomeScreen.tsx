@@ -19,14 +19,7 @@ export default class HomeScreen extends React.Component<HomeScreenProps, object>
                         onPress={() => this.props.navigation.navigate('Game')}>
                     <Text>Play</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ 
-                        padding: 10,
-                        margin: 4,
-                        width: 200,
-                        alignItems: 'center',
-                        backgroundColor: "#ccc",
-                        borderColor: 'black',
-                        borderWidth: 1 }}
+                <TouchableOpacity style={ styles.button }
                         onPress={() => this.props.navigation.navigate('Instructions')}>
                     <Text>How to Play/怎么玩</Text>
                 </TouchableOpacity>
