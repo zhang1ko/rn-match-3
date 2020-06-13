@@ -3,8 +3,8 @@ import {
 View,
 Text,
 } from 'react-native';
-import GridBoard from './GridBoard';
-import Square from './Square';
+import GridBoard from '../GridBoard';
+import Square from '../square/Square';
 import {gameStyles} from './GameStyles';
 
 const row = 8;

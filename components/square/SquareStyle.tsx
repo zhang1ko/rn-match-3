@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import{
     StyleSheet
 } from 'react-native';
-import { Tile_Size } from './values';
+import { Tile_Size } from '../values';
 
 export const styles = StyleSheet.create({
     item: {
