@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import {
 View,
 Text,
+ToastAndroid,
+Animated,
 } from 'react-native';
+import { NavigationScreenProp } from 'react-navigation';
+
 import GridBoard from '../GridBoard';
 import Square from '../square/Square';
 import {gameStyles} from './GameStyles';
+import HealthBar from '../Healthbar';
 
 const row = 8;
 const column = 8;
@@ -33,19 +38,27 @@ function randomEnum<Number>(anEnum: Number): Number[keyof Number] {
     return randomEnumValue;
 }
 
-interface GameState {
+interface GameProps {
+    navigation: NavigationScreenProp<any,any>
     onBoardSquares: Array<Square>;
     score: number;
+    health: number;
+    turn: number;
+    maxTurn: number;
 }
 
-export default class Game extends React.Component<{}, GameState> {
+export default class Game extends React.Component<{}, GameProps> {
     _gameStarted = false;
 
-    constructor(props: {}) {
+    constructor(props: {health: number, goBack: any, maxTurn: number}) {
         super(props);
         this.state = {
+            navigation: props.goBack,
             onBoardSquares: [],
-            score: 0
+            score: 0,
+            health: props.health,
+            turn: 0,
+            maxTurn: props.maxTurn
         }
     }
     
@@ -68,9 +81,11 @@ export default class Game extends React.Component<{}, GameState> {
         this.setState({onBoardSquares: data})
         
         if (this._gameStarted) 
-            setTimeout(() => {this.checkMatch(data)}, 300);
+            setTimeout(() => {this.checkMatch(data)}, 500);
         else
             this.checkMatch(data);
+        
+        this.setState({turn: this.state.turn + 1});
         return data;
     }
     /*
@@ -210,7 +225,12 @@ export default class Game extends React.Component<{}, GameState> {
         }
         
         if (this._gameStarted) {
-            this.setState({score: this.state.score + numOfMatches});
+            this.setState({score: this.state.score + numOfMatches * 10});
+            if (this.state.health > (numOfMatches * 10)) 
+                this.setState({health: this.state.health - numOfMatches * 10});
+            else {
+                this.setState({health: 0});
+            }
         }
         this.setState({onBoardSquares: data})
         
@@ -257,7 +277,7 @@ export default class Game extends React.Component<{}, GameState> {
             if (data[currPos].type == squareType.grey.toString()) {
                 data[currPos] = new Square({title: `${randomEnum(squareType)}`, key: currPos, swap: this.moveSquare});
                 if (this._gameStarted) 
-                    setTimeout(() => {this.dropDown(data)}, 10);
+                    setTimeout(() => {this.dropDown(data)}, 100);
                 else
                     this.dropDown(data);
             }
@@ -315,11 +335,24 @@ export default class Game extends React.Component<{}, GameState> {
     componentWillUnmount() {  
         this._gameStarted = false;
     }
+    componentDidUpdate() {
+        if (this.state.health <= 0) {
+            ToastAndroid.showWithGravity("You Won!", ToastAndroid.SHORT, ToastAndroid.CENTER)
+        }
+        if (this.state.turn >= this.state.maxTurn) {
+            ToastAndroid.showWithGravity("You Lost!", ToastAndroid.LONG, ToastAndroid.CENTER)
+            this.state.navigation.navigate("Home");
+        }
+    }
 
     render () {
         return (
             <View>
-                <Text style={gameStyles.screen}>Score: {this.state.score * 10}</Text>
+                {/* <HealthBar currentHealth = {this.state.health}/> */}
+                <View style={ gameStyles.screen }>
+                    <Text style={gameStyles.screen}>Score: {this.state.score}</Text>
+                    <Text style={gameStyles.screen}>Turn: {this.state.turn} / {this.state.maxTurn}</Text>
+                </ View>
                 <GridBoard items={this.state.onBoardSquares} />
             </ View>
         );

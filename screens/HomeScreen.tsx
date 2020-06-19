@@ -12,12 +12,13 @@ interface HomeScreenProps {
 };
 
 export default class HomeScreen extends React.Component<HomeScreenProps, object> {
+    
     render() {
         return (
             <View style={styles.screen}>
                 <TouchableOpacity style={ styles.button }
                         onPress={() => this.props.navigation.navigate('Game')}>
-                    <Text>Play</Text>
+                    <Text>Play/开始</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={ styles.button }
                         onPress={() => this.props.navigation.navigate('Instructions')}>

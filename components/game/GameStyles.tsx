@@ -7,8 +7,7 @@ export const gameStyles = StyleSheet.create({
     screen: {
         flexDirection: 'row',
         padding: 10,
-        marginLeft: 50,
-        marginTop: 50,
+        marginLeft: 20,
         fontSize: 20,
         fontWeight: 'bold'
     }
