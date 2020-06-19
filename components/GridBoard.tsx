@@ -34,8 +34,7 @@ export default class GridBoard extends React.Component<GridBoardProps, {}> {
 const styles = StyleSheet.create({
     grid: {
         flexDirection: 'column',
-        marginBottom: 32,
-        marginTop: 16,
+        marginTop: 0,
         height: 400,
         alignItems: 'center'
     }
