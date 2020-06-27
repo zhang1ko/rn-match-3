@@ -348,7 +348,7 @@ export default class Game extends React.Component<{}, GameProps> {
     render () {
         return (
             <View>
-                {/* <HealthBar currentHealth = {this.state.health}/> */}
+                <HealthBar currentHealth = {this.state.health}/>
                 <View style={ gameStyles.screen }>
                     <Text style={gameStyles.screen}>Score: {this.state.score}</Text>
                     <Text style={gameStyles.screen}>Turn: {this.state.turn} / {this.state.maxTurn}</Text>
