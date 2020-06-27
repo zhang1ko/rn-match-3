@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-View,
-Text,
-ToastAndroid,
-Animated,
-} from 'react-native';
+import { View, Text, ToastAndroid, Animated } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
 
 import GridBoard from '../GridBoard';
