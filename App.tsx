@@ -20,8 +20,6 @@ import HomeScreen from './screens/HomeScreen';
 import GameScreen from './screens/GameScreen';
 import InstructionScreen from './screens/InstructionScreen';
 
-import level1 from './components/levels/Level1';
-
 import GridBoard from './components/GridBoard';
 import Square from './components/square/Square';
 import Game from './components/game/Game'
