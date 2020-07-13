@@ -2,10 +2,30 @@ import React, { Component } from 'react';
 import { View, Text, ToastAndroid, Animated } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
 
+import Sound from 'react-native-sound';
+
 import GridBoard from '../GridBoard';
 import Square from '../square/Square';
 import {gameStyles} from './GameStyles';
 import HealthBar from '../Healthbar';
+
+let hit = new Sound('hit_sound_effect.mp3', Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+        console.log('failed to load the sound', error);
+        return;
+    }
+    // loaded successfully
+    console.log('duration in seconds: ' + hit.getDuration() + 'number of channels: ' + hit.getNumberOfChannels());
+   
+    // Play the sound with an onEnd callback
+    hit.play((success) => {
+        if (success) {
+            console.log('successfully finished playing');
+        } else {
+            console.log('playback failed due to audio decoding errors');
+        }
+    });
+});
 
 const row = 8;
 const column = 8;
@@ -40,12 +60,13 @@ interface GameProps {
     health: number;
     turn: number;
     maxTurn: number;
+    cleared: () => null;
 }
 
 export default class Game extends React.Component<{}, GameProps> {
     _gameStarted = false;
 
-    constructor(props: {health: number, goBack: any, maxTurn: number}) {
+    constructor(props: {health: number, goBack: any, maxTurn: number, cleared: () => null}) {
         super(props);
         this.state = {
             navigation: props.goBack,
@@ -53,7 +74,8 @@ export default class Game extends React.Component<{}, GameProps> {
             score: 0,
             health: props.health,
             turn: 0,
-            maxTurn: props.maxTurn
+            maxTurn: props.maxTurn,
+            cleared: props.cleared
         }
     }
     
@@ -220,6 +242,7 @@ export default class Game extends React.Component<{}, GameProps> {
         }
         
         if (this._gameStarted) {
+            hit.play();
             this.setState({score: this.state.score + numOfMatches * 10});
             if (this.state.health > (numOfMatches * 10)) 
                 this.setState({health: this.state.health - numOfMatches * 10});
@@ -333,10 +356,12 @@ export default class Game extends React.Component<{}, GameProps> {
     componentDidUpdate() {
         if (this.state.health <= 0) {
             ToastAndroid.showWithGravity("You Won!", ToastAndroid.SHORT, ToastAndroid.CENTER)
+            this.state.cleared();
+            this.state.navigation.goBack();
         }
         if (this.state.turn >= this.state.maxTurn) {
-            ToastAndroid.showWithGravity("You Lost!", ToastAndroid.LONG, ToastAndroid.CENTER)
-            this.state.navigation.navigate("Home");
+            ToastAndroid.showWithGravity("You Lost!", ToastAndroid.SHORT, ToastAndroid.CENTER)
+            this.state.navigation.goBack();
         }
     }
 
